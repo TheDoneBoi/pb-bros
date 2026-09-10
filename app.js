@@ -27,6 +27,8 @@ const btnSayPb = document.getElementById('btn-say-pb');
 const leaderboardList = document.getElementById('leaderboard-list');
 const leaderboardEmpty = document.getElementById('leaderboard-empty');
 const connectionStatus = document.getElementById('connection-status');
+const disclaimerModal = document.getElementById('disclaimer-modal');
+const btnAgree = document.getElementById('btn-agree');
 
 // Totals Pane Elements
 const currentMonthDisplay = document.getElementById('current-month-display');
@@ -91,6 +93,16 @@ function init() {
 }
 
 // --- Auth ---
+function showDisclaimer() {
+    return new Promise((resolve) => {
+        disclaimerModal.classList.remove('hidden');
+        btnAgree.onclick = () => {
+            disclaimerModal.classList.add('hidden');
+            resolve();
+        };
+    });
+}
+
 async function login(username) {
     currentUser = username.trim();
     if (!currentUser) return;
@@ -101,8 +113,8 @@ async function login(username) {
         const userSnap = await userRef.get();
         
         if (!userSnap.exists) {
+            await showDisclaimer();
             await userRef.set({ ate: 0, said: 0, score: 0 });
-            alert("REMEMBER: NO FALSIFYING PEANUT BUTTER INFORMATION. It is bad.");
         }
 
         localStorage.setItem('pb-bros-user', currentUser);
