@@ -247,11 +247,23 @@ async function buyItem(cost, itemName) {
         alert(`Not enough points, Bro! You need ${cost} points to buy ${itemName}. Eat more PB!`);
         return;
     }
+    
+    const confirmPurchase = window.confirm(`Are you sure you want to buy ${itemName} for ${cost} points?`);
+    if (!confirmPurchase) return;
 
     try {
         const userRef = db.collection('users').doc(currentUser);
         await userRef.update({
             balance: currentBalance - cost
+        });
+        
+        // Trigger Email in Backend (Firebase Extension)
+        await db.collection('mail').add({
+            to: 'chandlerbry1@gmail.com',
+            message: {
+                subject: 'PB BROS Purchase',
+                text: `${currentUser} just bought: ${itemName}!`
+            }
         });
         
         // Fun animation for buying
