@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PB Bros: The App</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-container">
+        <header class="app-header">
+            <div class="header-titles">
+                <h1>PB Bros: The App</h1>
+                <p class="subtitle" id="connection-status">Connecting to Database...</p>
+            </div>
+            <img src="favicon.png" alt="Peanut Butter Jar" class="header-icon">
+        </header>
+
+        <!-- Profile Login Section -->
+        <section id="login-section" class="card-section">
+            <h2>Who are you?</h2>
+            
+            <div id="existing-users-container" class="hidden">
+                <p class="subtitle" style="margin-bottom: 10px;">Select an existing Bro:</p>
+                <div id="existing-users-list" class="user-pills">
+                    <!-- Injected via JS -->
+                </div>
+                <div class="divider"><span>OR</span></div>
+            </div>
+
+            <p class="subtitle" style="margin-bottom: 10px;">Create a new Bro:</p>
+            <form id="login-form" class="flex-form">
+                <input type="text" id="username-input" placeholder="Enter your Bro Name..." required autocomplete="off">
+                <button type="submit" class="primary-btn">Join</button>
+            </form>
+        </section>
+
+        <!-- Swipe Container (Hidden until logged in) -->
+        <div id="main-swipe-container" class="swipe-container hidden">
+            <!-- PANE 1: Tracking & Leaderboard -->
+            <div class="swipe-pane">
+                <section id="tracking-section">
+                    <div class="user-welcome">
+                        <h2>Welcome, <span id="current-user-name">Bro</span>!</h2>
+                        <button id="logout-btn" class="text-btn">Change Profile</button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="btn-eat-pb" class="action-btn massive-btn">
+                            <span class="emoji">🥜</span>
+                            <span class="action-text">I Ate Peanut Butter!</span>
+                            <span class="points-badge">+1 pt</span>
+                        </button>
+                        
+                        <button id="btn-say-pb" class="action-btn massive-btn secondary">
+                            <span class="emoji">🗣️</span>
+                            <span class="action-text">Said PB to a Prospect!</span>
+                            <span class="points-badge">+5 pts</span>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="card-section leaderboard-section">
+                    <h2>🏆 Leaderboard</h2>
+                    <div id="leaderboard-empty" class="empty-state">
+                        <p>No PB tracked yet...</p>
+                    </div>
+                    <ul id="leaderboard-list" class="leaderboard-list">
+                        <!-- Leaderboard items injected via JS -->
+                    </ul>
+                </section>
+                <div class="swipe-hint">Swipe for Company Totals ➡️</div>
+            </div>
+
+            <!-- PANE 2: Monthly Totals -->
+            <div class="swipe-pane totals-pane">
+                <div class="totals-header">
+                    <h2>🏢 Company Totals</h2>
+                    <p id="current-month-display">...</p>
+                </div>
+                
+                <div class="massive-counter-card">
+                    <span class="counter-emoji">🥜</span>
+                    <div class="counter-content">
+                        <div id="total-ate-count" class="counter-number">0</div>
+                        <div class="counter-label">Total PB Eaten</div>
+                    </div>
+                </div>
+
+                <div class="massive-counter-card secondary">
+                    <span class="counter-emoji">🗣️</span>
+                    <div class="counter-content">
+                        <div id="total-said-count" class="counter-number">0</div>
+                        <div class="counter-label">Total PB Mentions</div>
+                    </div>
+                </div>
+                <div class="swipe-hint">⬅️ Swipe for Leaderboard</div>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <div class="branding">
+                <span class="branding-text">Powered by</span>
+                <a href="../square%20technologies/index.html" class="branding-link">
+                    <div class="square-logo"></div>
+                    <span class="branding-name">Square AI</span>
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Firebase CDN SDK (Compat versions to allow double-clicking index.html) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="app.js" defer></script>
+</body>
+</html>
