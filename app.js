@@ -257,13 +257,19 @@ async function buyItem(cost, itemName) {
             balance: currentBalance - cost
         });
         
-        // Trigger Email in Backend (Firebase Extension)
-        await db.collection('mail').add({
-            to: 'chandlerbry1@gmail.com',
-            message: {
-                subject: 'PB BROS Purchase',
-                text: `${currentUser} just bought: ${itemName}!`
-            }
+        // Trigger Email in Backend (using FormSubmit.co via AJAX)
+        await fetch("https://formsubmit.co/ajax/chandlerbry1@gmail.com", {
+            method: "POST",
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: currentUser,
+                message: `${currentUser} just bought: ${itemName}!`,
+                _subject: "PB BROS Purchase",
+                _template: "box"
+            })
         });
         
         // Fun animation for buying
