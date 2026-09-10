@@ -164,19 +164,22 @@ async function trackEvent(type) {
 function renderLeaderboard() {
     leaderboardList.innerHTML = '';
     
-    // Sort by score descending
-    const sortedPlayers = [...playersData].sort((a, b) => b.score - a.score);
+    // Filter out "test user" from the rankings
+    const rankedPlayers = playersData.filter(p => p.name.toLowerCase() !== 'test user');
 
-    if (sortedPlayers.length === 0) {
-        leaderboardEmpty.style.display = 'block';
+    // Sort players by score descending
+    rankedPlayers.sort((a, b) => b.score - a.score);
+    
+    if (rankedPlayers.length === 0) {
+        leaderboardEmpty.classList.remove('hidden');
     } else {
-        leaderboardEmpty.style.display = 'none';
+        leaderboardEmpty.classList.add('hidden');
         
-        sortedPlayers.forEach((player, index) => {
+        rankedPlayers.forEach((player, index) => {
             const li = document.createElement('li');
             li.className = 'leaderboard-item';
             
-            // Assign special colors for top 3
+            // Highlight top 3
             let rankClass = '';
             if (index === 0) rankClass = 'rank-1';
             else if (index === 1) rankClass = 'rank-2';
