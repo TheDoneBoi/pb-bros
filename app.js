@@ -35,6 +35,12 @@ const currentMonthDisplay = document.getElementById('current-month-display');
 const totalAteCount = document.getElementById('total-ate-count');
 const totalSaidCount = document.getElementById('total-said-count');
 
+// Personal Pane Elements
+const personalUserDisplay = document.getElementById('personal-user-display');
+const personalScoreCount = document.getElementById('personal-score-count');
+const personalAteCount = document.getElementById('personal-ate-count');
+const personalSaidCount = document.getElementById('personal-said-count');
+
 
 // --- State ---
 let currentUser = null;
@@ -72,6 +78,7 @@ function init() {
         
         renderLeaderboard();
         renderUserSelector();
+        renderPersonalStats();
     }, (error) => {
         console.error("Error fetching data:", error);
         connectionStatus.textContent = 'Disconnected 🔴 (Check Database Rules)';
@@ -119,6 +126,8 @@ async function login(username) {
 
         localStorage.setItem('pb-bros-user', currentUser);
         currentUserName.textContent = currentUser;
+        
+        renderPersonalStats();
         
         loginSection.classList.add('hidden');
         swipeContainer.classList.remove('hidden');
@@ -209,6 +218,23 @@ function renderLeaderboard() {
             `;
             leaderboardList.appendChild(li);
         });
+    }
+}
+
+function renderPersonalStats() {
+    if (!currentUser) return;
+    
+    const myData = playersData.find(p => p.name === currentUser);
+    personalUserDisplay.textContent = currentUser;
+    
+    if (myData) {
+        personalScoreCount.textContent = myData.score || 0;
+        personalAteCount.textContent = myData.ate || 0;
+        personalSaidCount.textContent = myData.said || 0;
+    } else {
+        personalScoreCount.textContent = 0;
+        personalAteCount.textContent = 0;
+        personalSaidCount.textContent = 0;
     }
 }
 
