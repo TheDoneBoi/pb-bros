@@ -102,6 +102,7 @@ async function login(username) {
         
         if (!userSnap.exists) {
             await userRef.set({ ate: 0, said: 0, score: 0 });
+            alert("REMEMBER: NO FALSIFYING PEANUT BUTTER INFORMATION. It is bad.");
         }
 
         localStorage.setItem('pb-bros-user', currentUser);
