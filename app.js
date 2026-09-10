@@ -35,11 +35,9 @@ const currentMonthDisplay = document.getElementById('current-month-display');
 const totalAteCount = document.getElementById('total-ate-count');
 const totalSaidCount = document.getElementById('total-said-count');
 
-// Personal Pane Elements
-const personalUserDisplay = document.getElementById('personal-user-display');
-const personalScoreCount = document.getElementById('personal-score-count');
-const personalAteCount = document.getElementById('personal-ate-count');
-const personalSaidCount = document.getElementById('personal-said-count');
+// Shop Pane Elements
+const shopUsername = document.getElementById('shop-username');
+const shopBalanceDisplay = document.getElementById('shop-balance-display');
 
 
 // --- State ---
@@ -78,7 +76,7 @@ function init() {
         
         renderLeaderboard();
         renderUserSelector();
-        renderPersonalStats();
+        renderShop();
     }, (error) => {
         console.error("Error fetching data:", error);
         connectionStatus.textContent = 'Disconnected 🔴 (Check Database Rules)';
@@ -121,7 +119,7 @@ async function login(username) {
         
         if (!userSnap.exists) {
             await showDisclaimer();
-            await userRef.set({ ate: 0, said: 0, score: 0 });
+            await userRef.set({ ate: 0, said: 0, score: 0, balance: 0 });
         }
 
         localStorage.setItem('pb-bros-user', currentUser);
@@ -161,7 +159,8 @@ async function trackEvent(type) {
         if (type === 'eat') {
             await userRef.update({
                 ate: firebase.firestore.FieldValue.increment(1),
-                score: firebase.firestore.FieldValue.increment(1)
+                score: firebase.firestore.FieldValue.increment(1),
+                balance: firebase.firestore.FieldValue.increment(1)
             });
             await totalsRef.set({
                 totalAte: firebase.firestore.FieldValue.increment(1)
@@ -170,7 +169,8 @@ async function trackEvent(type) {
             createPBRain(); // Trigger the rain!
             await userRef.update({
                 said: firebase.firestore.FieldValue.increment(1),
-                score: firebase.firestore.FieldValue.increment(5)
+                score: firebase.firestore.FieldValue.increment(5),
+                balance: firebase.firestore.FieldValue.increment(5)
             });
             await totalsRef.set({
                 totalSaid: firebase.firestore.FieldValue.increment(1)
@@ -221,20 +221,45 @@ function renderLeaderboard() {
     }
 }
 
-function renderPersonalStats() {
+function renderShop() {
     if (!currentUser) return;
     
     const myData = playersData.find(p => p.name === currentUser);
-    personalUserDisplay.textContent = currentUser;
+    shopUsername.textContent = currentUser;
     
     if (myData) {
-        personalScoreCount.textContent = myData.score || 0;
-        personalAteCount.textContent = myData.ate || 0;
-        personalSaidCount.textContent = myData.said || 0;
+        const balance = myData.balance !== undefined ? myData.balance : (myData.score || 0);
+        shopBalanceDisplay.textContent = balance;
     } else {
-        personalScoreCount.textContent = 0;
-        personalAteCount.textContent = 0;
-        personalSaidCount.textContent = 0;
+        shopBalanceDisplay.textContent = 0;
+    }
+}
+
+async function buyItem(cost, itemName) {
+    if (!currentUser) return;
+
+    const myData = playersData.find(p => p.name === currentUser);
+    if (!myData) return;
+
+    const currentBalance = myData.balance !== undefined ? myData.balance : (myData.score || 0);
+
+    if (currentBalance < cost) {
+        alert(`Not enough points, Bro! You need ${cost} points to buy ${itemName}. Eat more PB!`);
+        return;
+    }
+
+    try {
+        const userRef = db.collection('users').doc(currentUser);
+        await userRef.update({
+            balance: currentBalance - cost
+        });
+        
+        // Fun animation for buying
+        createPBRain();
+        alert(`Successfully bought ${itemName}!`);
+    } catch (e) {
+        console.error("Purchase Error:", e);
+        alert("Failed to purchase item!");
     }
 }
 

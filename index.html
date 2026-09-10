@@ -110,38 +110,49 @@
                 <div class="swipe-hint">⬅️ Leaderboard | Personal Totals ➡️</div>
             </div>
 
-            <!-- PANE 3: Personal Totals -->
+            <!-- PANE 3: PB Shop -->
             <div class="swipe-pane totals-pane">
                 <div class="totals-header">
-                    <h2>👤 Personal Totals</h2>
-                    <p id="personal-user-display">...</p>
+                    <h2>🛒 PB Shop</h2>
+                    <p id="shop-user-display" style="font-size: 1.2rem; font-weight: 600; color: #FFD700; margin-top: 0.5rem;">
+                        <span id="shop-username">Bro</span> - <span id="shop-balance-display">0</span> pts
+                    </p>
                 </div>
                 
-                <div class="stats-row">
-                    <div class="massive-counter-card half-card">
-                        <span class="counter-emoji" style="margin-right: 0.5rem; font-size: 2.5rem;">🥜</span>
-                        <div class="counter-content">
-                            <div id="personal-ate-count" class="counter-number" style="font-size: 2.5rem;">0</div>
-                            <div class="counter-label" style="font-size: 0.9rem;">Eaten</div>
+                <div class="shop-list">
+                    <div class="shop-item">
+                        <div class="shop-item-info">
+                            <h3>PB Packet</h3>
+                            <p class="cost">5 pts</p>
                         </div>
+                        <button class="primary-btn buy-btn" onclick="buyItem(5, 'PB Packet')">Buy</button>
                     </div>
 
-                    <div class="massive-counter-card secondary half-card">
-                        <span class="counter-emoji" style="margin-right: 0.5rem; font-size: 2.5rem;">🗣️</span>
-                        <div class="counter-content">
-                            <div id="personal-said-count" class="counter-number" style="font-size: 2.5rem;">0</div>
-                            <div class="counter-label" style="font-size: 0.9rem;">Mentions</div>
+                    <div class="shop-item">
+                        <div class="shop-item-info">
+                            <h3>PB (16oz)</h3>
+                            <p class="cost">30 pts</p>
                         </div>
+                        <button class="primary-btn buy-btn" onclick="buyItem(30, 'PB (16oz)')">Buy</button>
+                    </div>
+
+                    <div class="shop-item">
+                        <div class="shop-item-info">
+                            <h3>Smucker's Goober</h3>
+                            <p class="cost">100 pts</p>
+                        </div>
+                        <button class="primary-btn buy-btn" onclick="buyItem(100, 'Smucker\'s Goober')">Buy</button>
+                    </div>
+
+                    <div class="shop-item">
+                        <div class="shop-item-info">
+                            <h3>1/1</h3>
+                            <p class="cost">100,000 pts</p>
+                        </div>
+                        <button class="primary-btn buy-btn" onclick="buyItem(100000, '1/1')">Buy</button>
                     </div>
                 </div>
 
-                <div class="massive-counter-card" style="border-color: #FFD700; margin-top: 1rem;">
-                    <span class="counter-emoji">🏆</span>
-                    <div class="counter-content">
-                        <div id="personal-score-count" class="counter-number" style="color: #FFD700;">0</div>
-                        <div class="counter-label">Total Score</div>
-                    </div>
-                </div>
                 <div class="swipe-hint">⬅️ Swipe for Company Totals</div>
             </div>
         </div>
