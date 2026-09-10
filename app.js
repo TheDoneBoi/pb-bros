@@ -125,7 +125,7 @@ async function login(username) {
         localStorage.setItem('pb-bros-user', currentUser);
         currentUserName.textContent = currentUser;
         
-        renderPersonalStats();
+        renderShop();
         
         loginSection.classList.add('hidden');
         swipeContainer.classList.remove('hidden');
